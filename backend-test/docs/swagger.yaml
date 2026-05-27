@@ -1,0 +1,199 @@
+basePath: /
+definitions:
+  models.Jurusan:
+    properties:
+      fakultas:
+        type: string
+      id:
+        type: integer
+      jenjang:
+        type: string
+      nama_jurusan:
+        type: string
+    type: object
+  models.Mahasiswa:
+    properties:
+      alamat:
+        type: string
+      id:
+        type: integer
+      jurusan:
+        $ref: '#/definitions/models.Jurusan'
+      jurusan_id:
+        type: integer
+      nama:
+        type: string
+      nim:
+        type: string
+      tgl_lahir:
+        type: string
+      umur:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API Technical Test Golang
+  title: CRUD Mahasiswa API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login user dan mendapatkan JWT token
+      parameters:
+      - description: Login User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login User
+      tags:
+      - Auth
+  /mahasiswa:
+    get:
+      consumes:
+      - application/json
+      description: Get list mahasiswa beserta jurusan
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all mahasiswa
+      tags:
+      - Mahasiswa
+    post:
+      consumes:
+      - application/json
+      description: Tambah data mahasiswa
+      parameters:
+      - description: Mahasiswa
+        in: body
+        name: mahasiswa
+        required: true
+        schema:
+          $ref: '#/definitions/models.Mahasiswa'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create mahasiswa
+      tags:
+      - Mahasiswa
+  /mahasiswa/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus data mahasiswa berdasarkan ID
+      parameters:
+      - description: Mahasiswa ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete mahasiswa
+      tags:
+      - Mahasiswa
+    put:
+      consumes:
+      - application/json
+      description: Update data mahasiswa berdasarkan ID
+      parameters:
+      - description: Mahasiswa ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Mahasiswa
+        in: body
+        name: mahasiswa
+        required: true
+        schema:
+          $ref: '#/definitions/models.Mahasiswa'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update mahasiswa
+      tags:
+      - Mahasiswa
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register user baru
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register User
+      tags:
+      - Auth
+swagger: "2.0"
