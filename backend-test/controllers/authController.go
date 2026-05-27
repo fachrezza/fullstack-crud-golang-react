@@ -47,6 +47,8 @@ func Register(c *gin.Context) {
 
 	user.Password = string(hashedPassword)
 
+	user.Role = "user"
+
 	database.DB.Create(&user)
 
 	c.JSON(http.StatusOK, gin.H{
