@@ -6,6 +6,7 @@ function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [role, setRole] = useState('user')
 
   const register = async () => {
 
@@ -16,7 +17,8 @@ function Register() {
         {
           name,
           email,
-          password
+          password,
+          role
         }
       )
 
@@ -84,6 +86,7 @@ function Register() {
                 transition-all
               "
             />
+            
 
           </div>
 
@@ -148,7 +151,20 @@ function Register() {
             />
 
           </div>
+            <select
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full border p-3 rounded-xl"
+            >
 
+                <option value="user">
+                    User
+                </option>
+
+                <option value="admin">
+                    Admin
+                </option>
+
+            </select>
           {/* BUTTON */}
 
           <button

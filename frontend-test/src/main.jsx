@@ -3,14 +3,33 @@ import ReactDOM from 'react-dom/client'
 import {
   BrowserRouter,
   Routes,
- Route
+  Route,
+  Navigate
 } from 'react-router-dom'
 
 import './index.css'
 
-import Register from './pages/Register.jsx'
-import Dashboard from './pages/Dashboard.jsx'
-import Login from './pages/Login.jsx'
+import Login from './pages/Login'
+import Register from './pages/Register'
+
+import AdminDashboard from './pages/AdminDashboard'
+import UserDashboard from './pages/UserDashboard'
+
+const token = localStorage.getItem('token')
+const role = localStorage.getItem('role')
+
+function Home() {
+
+  if (!token) {
+    return <Navigate to="/login" />
+  }
+
+  if (role === 'admin') {
+    return <AdminDashboard />
+  }
+
+  return <UserDashboard />
+}
 
 ReactDOM.createRoot(
   document.getElementById('root')
@@ -20,19 +39,16 @@ ReactDOM.createRoot(
 
     <Routes>
 
-      {/* DASHBOARD */}
       <Route
         path="/"
-        element={<Dashboard />}
+        element={<Home />}
       />
 
-      {/* LOGIN */}
       <Route
         path="/login"
         element={<Login />}
       />
 
-      {/* REGISTER */}
       <Route
         path="/register"
         element={<Register />}

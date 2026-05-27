@@ -10,22 +10,25 @@ function Login() {
 
     try {
 
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        {
-          email,
-          password
-        }
-      )
+    const response = await axios.post(
+      'http://localhost:8080/login',
+      {
+        email,
+        password
+      }
+    )
 
-      localStorage.setItem(
-        'token',
-        response.data.token
-      )
+    localStorage.setItem(
+      'token',
+      response.data.token
+    )
 
-      alert('Login berhasil')
+    localStorage.setItem(
+      'role',
+      response.data.role
+    )
 
-      window.location.href = '/'
+    window.location.href = '/'
 
     } catch (error) {
 

@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strings"
 
+	"backend-test/controllers"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -19,11 +21,10 @@ func AuthMiddleware() gin.HandlerFunc {
 		if authHeader == "" {
 
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Token required",
+				"error": "Unauthorized",
 			})
 
 			c.Abort()
-
 			return
 		}
 
@@ -34,7 +35,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			1,
 		)
 
-		claims := &jwt.RegisteredClaims{}
+		claims := &controllers.Claims{}
 
 		token, err := jwt.ParseWithClaims(
 			tokenString,
@@ -47,13 +48,14 @@ func AuthMiddleware() gin.HandlerFunc {
 		if err != nil || !token.Valid {
 
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Invalid token",
+				"error": "Invalid Token",
 			})
 
 			c.Abort()
-
 			return
 		}
+
+		c.Set("role", claims.Role)
 
 		c.Next()
 	}

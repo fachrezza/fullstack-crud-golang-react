@@ -15,6 +15,7 @@ var jwtKey = []byte("secret_key")
 
 type Claims struct {
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -112,6 +113,7 @@ func Login(c *gin.Context) {
 
 	claims := &Claims{
 		Email: user.Email,
+		Role:  user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
@@ -135,5 +137,6 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": tokenString,
+		"role":  user.Role,
 	})
 }
